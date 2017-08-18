@@ -27,9 +27,9 @@ curl -sL https://deb.nodesource.com/setup_6.x | bash -
 apt-get install -y nodejs unzip python g++ build-essential
 
 # install hashicorp tools/chefdk
-cd ~
-mkdir -p devops/hashicorp
-cd ~/devops/hashicorp
+cd /home/vagrant 
+mkdir devops
+cd /home/vagrant/devops
 
 wget https://releases.hashicorp.com/packer/1.0.4/packer_1.0.4_linux_amd64.zip
 unzip packer_1.0.4_linux_amd64.zip
@@ -41,6 +41,7 @@ wget https://releases.hashicorp.com/nomad/0.6.0/nomad_0.6.0_linux_amd64.zip
 unzip nomad_0.6.0_linux_amd64.zip
 
 rm -f *.zip
+chown -R vagrant:vagrant /home/vagrant/devops
 
 # update npm
 npm install -g npm
@@ -79,8 +80,8 @@ apt-get remove -y light-locker --purge
 
 # change the default wallpaper
 #wget https://jhipster.github.io/images/wallpaper-004-2560x1440.png -O /usr/share/xfce4/backdrops/jhipster-wallpaper.png
-wget https://raw.githubusercontent.com/jhipster/jhipster-devbox/master/images/jhipster-wallpaper.png -O /usr/share/xfce4/backdrops/jhipster-wallpaper.png
-sed -i -e 's/xubuntu-wallpaper.png/jhipster-wallpaper.png/' /etc/xdg/xdg-xubuntu/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
+#wget https://raw.githubusercontent.com/jhipster/jhipster-devbox/master/images/jhipster-wallpaper.png -O /usr/share/xfce4/backdrops/jhipster-wallpaper.png
+#sed -i -e 's/xubuntu-wallpaper.png/jhipster-wallpaper.png/' /etc/xdg/xdg-xubuntu/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
 
 ################################################################################
 # Install the development tools
@@ -127,7 +128,7 @@ echo 'SHELL=/bin/zsh' >> /etc/environment
 # install jhipster-oh-my-zsh-plugin
 git clone https://github.com/jhipster/jhipster-oh-my-zsh-plugin.git /home/vagrant/.oh-my-zsh/custom/plugins/jhipster
 sed -i -e "s/plugins=(git)/plugins=(git docker docker-compose jhipster)/g" /home/vagrant/.zshrc
-echo 'export PATH="$PATH:/usr/bin:/home/vagrant/.yarn-global/bin:/home/vagrant/.yarn/bin:/home/vagrant/.config/yarn/global/node_modules/.bin"' >> /home/vagrant/.zshrc
+echo 'export PATH="$PATH:/usr/bin:/home/vagrant/.yarn-global/bin:/home/vagrant/.yarn/bin:/home/vagrant/.config/yarn/global/node_modules/.bin:/home/vagrant/devops"' >> /home/vagrant/.zshrc
 
 # change user to vagrant
 chown -R vagrant:vagrant /home/vagrant/.zshrc /home/vagrant/.oh-my-zsh

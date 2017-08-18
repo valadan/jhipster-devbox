@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # update the system
+add-apt-repository ppa:webupd8team/java
 apt-get update
 apt-get upgrade
 
@@ -15,14 +16,31 @@ locale-gen en_US.UTF-8
 dpkg-reconfigure locales
 
 # install utilities
-apt-get -y install vim git zip bzip2 fontconfig curl language-pack-en
+apt-get -y install vim git zip bzip2 fontconfig curl language-pack-en jq
 
 # install Java 8
-apt-get install default-jdk
+# apt-get install default-jdk
+apt-get install oracle-java8-installer
 
 # install node.js
 curl -sL https://deb.nodesource.com/setup_6.x | bash -
 apt-get install -y nodejs unzip python g++ build-essential
+
+# install hashicorp tools/chefdk
+cd ~
+mkdir -p devops/hashicorp
+cd ~/devops/hashicorp
+
+wget https://releases.hashicorp.com/packer/1.0.4/packer_1.0.4_linux_amd64.zip
+unzip packer_1.0.4_linux_amd64.zip
+
+wget https://releases.hashicorp.com/terraform/0.10.2/terraform_0.10.2_linux_amd64.zip
+unzip terraform_0.10.2_linux_amd64.zip
+
+wget https://releases.hashicorp.com/nomad/0.6.0/nomad_0.6.0_linux_amd64.zip
+unzip nomad_0.6.0_linux_amd64.zip
+
+rm -f *.zip
 
 # update npm
 npm install -g npm
@@ -87,14 +105,14 @@ apt-get install -y mysql-workbench
 apt-get install -y pgadmin3
 
 # install Heroku toolbelt
-wget -O- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+#wget -O- https://toolbelt.heroku.com/install-ubuntu.sh | sh
 
 # install Guake
 apt-get install -y guake
 cp /usr/share/applications/guake.desktop /etc/xdg/autostart/
 
 # install jhipster-devbox
-git clone git://github.com/jhipster/jhipster-devbox.git /home/vagrant/jhipster-devbox
+git clone git://github.com/valadan/jhipster-devbox.git /home/vagrant/jhipster-devbox
 chmod +x /home/vagrant/jhipster-devbox/tools/*.sh
 
 # install zsh
@@ -122,6 +140,9 @@ sed -i -e 's/visual-studio-code\/code/visual-studio-code\/bin\/code/' /home/vagr
 
 # disable GPU (see https://code.visualstudio.com/docs/supporting/faq#_vs-code-main-window-is-blank)
 sed -i -e 's/"$CLI" "$@"/"$CLI" "--disable-gpu" "$@"/' /home/vagrant/.local/share/umake/ide/visual-studio-code/bin/code
+
+#install eclipse 
+su -c 'umake ide eclipse /home/vagrant/.local/share/umake/ide/eclipse' vagrant
 
 #install IDEA community edition
 su -c 'umake ide idea /home/vagrant/.local/share/umake/ide/idea' vagrant
